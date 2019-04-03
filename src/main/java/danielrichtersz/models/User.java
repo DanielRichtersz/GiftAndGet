@@ -1,8 +1,6 @@
 package danielrichtersz.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -14,6 +12,8 @@ public class User {
     private String email;
     private String username;
     private String password;
+
+    private boolean verifiedCompany;
 
     public User() {
 
@@ -43,6 +43,14 @@ public class User {
 
     public void setPassword(String newPassword) {
         this.password = password;
+    }
+
+    public boolean isVerifiedCompany() {
+        return this.verifiedCompany;
+    }
+
+    public void setVerifiedCompany(boolean verifiedCompany) {
+        this.verifiedCompany = verifiedCompany;
     }
 
     @Override
