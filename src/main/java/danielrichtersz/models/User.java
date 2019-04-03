@@ -1,6 +1,8 @@
 package danielrichtersz.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -13,6 +15,9 @@ public class User {
     private String username;
     private String password;
 
+    @OneToMany(mappedBy = "owner")
+    private List<ActionGroup> actionGroups;
+
     private boolean verifiedCompany;
 
     public User() {
@@ -23,6 +28,8 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.actionGroups = new ArrayList<>();
+        this.verifiedCompany = false;
     }
 
     public Long getId() {

@@ -51,7 +51,7 @@ public class App {
 
             log.info("--------------------------------------");
             log.info("Testing @Autowired userService, saving user through service");
-            userService.createUser("5@mail.com", "username5", "password5");
+            userService.createOrUpdateUser("5@mail.com", "username5", "password5");
             log.info("Created user, now retrieving all users to check if it is in the list");
             log.info("--------------------------------------");
             userRepository.findAll().forEach(user -> {

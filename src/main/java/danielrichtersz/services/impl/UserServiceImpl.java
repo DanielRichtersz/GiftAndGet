@@ -13,7 +13,22 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User createUser(String email, String username, String password) {
+    public User createOrUpdateUser(String email, String username, String password) {
         return userRepository.save(new User(email, username, password));
+    }
+
+    @Override
+    public boolean emailInUse(String email) {
+        User user = userRepository.findByEmail(email);
+        return user != null;
+    }
+
+    @Override
+    public boolean deleteUser(String email) {
+        User user = userRepository.findByEmail(email);
+
+        userRepository.delete(user);
+        user = userRepository.findByEmail(email);
+        return user == null;
     }
 }

@@ -18,30 +18,45 @@ public class UserControllerImpl implements UserController {
     @Autowired
     private UserService userService;
 
+    private UserHelpMethods userHelpMethods;
+
     @PostMapping("/users")
     @Override
     public ResponseEntity createUser(
             @RequestParam(value = "email") String email,
             @RequestParam(value = "username") String username,
             @RequestParam(value = "password") String password) {
-        if (username.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Please insert a valid username");
+        ResponseEntity responseEntity = userHelpMethods.checkUserParameters(email, username, password);
+
+        if (responseEntity != null) {
+            return responseEntity;
         }
 
-        if (password.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Please insert a valid password");
+        return userHelpMethods.createOrUpdateUser(email, username, password);
+    }
+
+    @Override
+    public ResponseEntity editUser(@RequestParam(value = "email") String email,
+                                   @RequestParam(value = "username") String username,
+                                   @RequestParam(value = "password") String password) {
+
+        if (!userService.emailInUse(email)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user with this email could be found");
         }
 
-        if (email.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Please insert a valid email");
+        return userHelpMethods.createOrUpdateUser(email, username, password);
+    }
+
+    @Override
+    public ResponseEntity deleteUser(String email) {
+        if (!userService.emailInUse(email)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user with this email could be found");
         }
 
-        User user = userService.createUser(email, username, password);
-
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User could not be created");
+        if (!userService.deleteUser(email)) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User could not be deleted");
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("User was succesfully deleted");
     }
 }
