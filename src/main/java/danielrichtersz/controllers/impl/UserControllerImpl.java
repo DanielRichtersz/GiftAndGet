@@ -42,7 +42,7 @@ public class UserControllerImpl implements UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User could not be created");
         }
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @PutMapping("/users")
@@ -70,6 +70,10 @@ public class UserControllerImpl implements UserController {
     public ResponseEntity deleteUser(String email) {
         if (!userService.emailInUse(email)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user with this email could be found");
+        }
+
+        if (userService.hasCharities(email)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This user has open charities. Please deactivate the charities first.");
         }
 
         if (!userService.deleteUser(email)) {

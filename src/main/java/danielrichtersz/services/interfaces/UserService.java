@@ -11,6 +11,8 @@ public interface UserService {
 
     boolean usernameInUse(String username);
 
+    boolean hasCharities(String email);
+
     boolean deleteUser(String email);
 
     User getByEmail(String email);

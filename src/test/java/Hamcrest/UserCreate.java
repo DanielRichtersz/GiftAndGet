@@ -29,7 +29,7 @@ public class UserCreate {
                 .when()
                 .request("POST", "/users")
                 .then()
-                .statusCode(202);
+                .statusCode(201);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class UserCreate {
                 .when()
                 .request("POST", "/users")
                 .then()
-                .statusCode(202);
+                .statusCode(201);
 
         given().params("email", USER_EMAIL, "username", USER_USERNAME, "password", USER_PASSWORD)
                 .when()
@@ -74,7 +74,7 @@ public class UserCreate {
                 .when()
                 .request("POST", "/users")
                 .then()
-                .statusCode(202);
+                .statusCode(201);
 
         given().params("email", USER_EMAIL_2, "username", USER_USERNAME, "password", USER_PASSWORD)
                 .when()

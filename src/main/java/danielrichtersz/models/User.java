@@ -21,6 +21,9 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private List<ActionGroup> actionGroups;
 
+    @OneToMany(mappedBy = "owner")
+    private List<Charity> charities;
+
     private boolean verifiedCompany;
 
     public User() {
@@ -53,6 +56,10 @@ public class User {
 
     public void setPassword(String newPassword) {
         this.password = password;
+    }
+
+    public List<Charity> getCharities() {
+        return this.charities;
     }
 
     public boolean isVerifiedCompany() {

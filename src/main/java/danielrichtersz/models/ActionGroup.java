@@ -16,6 +16,8 @@ public class ActionGroup {
 
     private Long minimumAmount;
 
+    private boolean isClosed;
+
     @ManyToOne
     private User owner;
 
@@ -36,6 +38,7 @@ public class ActionGroup {
         this.owner = owner;
         this.charity = charity;
         this.users = new ArrayList<>();
+        this.isClosed = false;
     }
 
     public Long getId() {
@@ -56,5 +59,13 @@ public class ActionGroup {
 
     public Long getMinimumAmount() {
         return this.minimumAmount;
+    }
+
+    public boolean getIsClosed() {
+        return this.isClosed;
+    }
+
+    public void setIsClosed(boolean isClosed) {
+        this.isClosed = isClosed;
     }
 }

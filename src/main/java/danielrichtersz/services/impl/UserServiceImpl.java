@@ -37,6 +37,10 @@ public class UserServiceImpl implements UserService {
     public boolean deleteUser(String email) {
         User user = userRepository.findByEmail(email);
 
+        if (user.getCharities().size() > 0) {
+            return false;
+        }
+
         userRepository.delete(user);
         user = userRepository.findByEmail(email);
         return user == null;
@@ -55,5 +59,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean usernameInUse(String username) {
         return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public boolean hasCharities(String email) {
+        User user = userRepository.findByEmail(email);
+
+        if (user.getCharities().size() > 0) {
+            return true;
+        }
+
+        return false;
     }
 }
