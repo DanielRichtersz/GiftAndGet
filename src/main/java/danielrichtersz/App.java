@@ -26,7 +26,7 @@ public class App {
     @Bean
     public CommandLineRunner demo(UserRepository userRepository) {
         return (args -> {
-            log.info("--------------------------------------");
+           /* log.info("--------------------------------------");
             log.info("Application running");
             log.info("--------------------------------------");
             log.info("");
@@ -60,7 +60,7 @@ public class App {
             });
             log.info("--------------------------------------");
             log.info("");
-
+*/
         });
     }
 }

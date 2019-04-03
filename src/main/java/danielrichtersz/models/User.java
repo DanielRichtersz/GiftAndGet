@@ -1,6 +1,7 @@
 package danielrichtersz.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,9 @@ public class User {
     private Long id;
 
     private String email;
+
     private String username;
+
     private String password;
 
     @OneToMany(mappedBy = "owner")
