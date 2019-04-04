@@ -81,6 +81,10 @@ public class CharityControllerImpl implements CharityController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No valid charity name provided");
         }
 
+        if (!charityService.charityNameInUse(charityName)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Charity could not be found");
+        }
+
         Charity charity = charityService.validateCharity(charityName, verified);
 
         if (charity == null) {
