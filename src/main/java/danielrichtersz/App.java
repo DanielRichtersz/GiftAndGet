@@ -1,6 +1,5 @@
 package danielrichtersz;
 
-import danielrichtersz.models.User;
 import danielrichtersz.repositories.UserRepository;
 import danielrichtersz.services.interfaces.UserService;
 import org.slf4j.Logger;
@@ -33,10 +32,10 @@ public class App {
 
             log.info("--------------------------------------");
             log.info("Creating and saving user");
-            userRepository.save(new User("1@mail.com", "username1", "password1"));
-            userRepository.save(new User("2@mail.com", "username2", "password2"));
-            userRepository.save(new User("3@mail.com", "username3", "password3"));
-            userRepository.save(new User("4@mail.com", "username4", "password4"));
+            userRepository.save(new UserAccount("1@mail.com", "username1", "password1"));
+            userRepository.save(new UserAccount("2@mail.com", "username2", "password2"));
+            userRepository.save(new UserAccount("3@mail.com", "username3", "password3"));
+            userRepository.save(new UserAccount("4@mail.com", "username4", "password4"));
             log.info("--------------------------------------");
             log.info("");
 

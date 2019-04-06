@@ -6,9 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static Hamcrest.UserTestResources.*;
+import static Hamcrest.UserTestResources.USER_EMAIL;
 import static io.restassured.RestAssured.given;
 
-public class UserEdit {
+public class UserAccountDelete {
 
     @Before
     public void setup() {
@@ -28,19 +29,19 @@ public class UserEdit {
     }
 
     @Test
-    public void whenEditingUser_ThenSuccessful() {
-        given().params("email", USER_EMAIL, "password", EDITED_PASSWORD)
+    public void whenDeletingUser_ThenSuccessful() {
+        given().params("email", USER_EMAIL)
                 .when()
-                .request("PUT", "/users")
+                .request("DELETE", "/users")
                 .then()
                 .statusCode(202);
     }
 
     @Test
-    public void whenEditingUser_EmailNotInUse() {
-        given().params("email", INCORRECT_USER_EMAIL, "password", EDITED_PASSWORD)
+    public void whenDeletingUser_UserNonExistant() {
+        given().params("email", INCORRECT_USER_EMAIL)
                 .when()
-                .request("PUT", "/users")
+                .request("DELETE", "/users")
                 .then()
                 .statusCode(404);
     }

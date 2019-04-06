@@ -8,7 +8,7 @@ import org.junit.Test;
 import static Hamcrest.UserTestResources.*;
 import static io.restassured.RestAssured.given;
 
-public class UserCreate {
+public class UserAccountCreate {
 
     @Before
     public void setup() {

@@ -35,7 +35,7 @@ public class CharityControllerImpl implements CharityController {
         }
 
         if (!userService.emailInUse(userEmail)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User could not be found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("UserAccount could not be found");
         }
 
         if (charityService.charityNameInUse(name)) {

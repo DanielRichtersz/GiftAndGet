@@ -1,7 +1,7 @@
 package danielrichtersz.controllers.impl;
 
 import danielrichtersz.controllers.interfaces.UserController;
-import danielrichtersz.models.User;
+import danielrichtersz.models.UserAccount;
 import danielrichtersz.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,13 +36,13 @@ public class UserControllerImpl implements UserController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("This username is already in use");
         }
 
-        User user = userService.createUser(email, username, password);
+        UserAccount userAccount = userService.createUser(email, username, password);
 
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User could not be created");
+        if (userAccount == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("UserAccount could not be created");
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userAccount);
     }
 
     @PutMapping("/users")
@@ -50,19 +50,19 @@ public class UserControllerImpl implements UserController {
     public ResponseEntity editUser(@RequestParam(value = "email") String email,
                                    @RequestParam(value = "password") String password) {
 
-        User user = userService.getByEmail(email);
+        UserAccount userAccount = userService.getByEmail(email);
 
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user with this email could be found");
+        if (userAccount == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No userAccount with this email could be found");
         }
 
-        user = userService.updateUser(email, password);
+        userAccount = userService.updateUser(email, password);
 
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User could not be updated");
+        if (userAccount == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("UserAccount could not be updated");
         }
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userAccount);
     }
 
     @DeleteMapping("/users")
@@ -77,10 +77,10 @@ public class UserControllerImpl implements UserController {
         }
 
         if (!userService.deleteUser(email)) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User could not be deleted");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("UserAccount could not be deleted");
         }
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("User was succesfully deleted");
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("UserAccount was succesfully deleted");
     }
 
     protected ResponseEntity checkUserParameters(String email, String username, String password) {

@@ -19,25 +19,25 @@ public class ActionGroup {
     private boolean isClosed;
 
     @ManyToOne
-    private User owner;
+    private UserAccount owner;
 
     @ManyToOne
     private Charity charity;
 
     @OneToMany
-    private List<User> users;
+    private List<UserAccount> userAccounts;
 
     public ActionGroup() {
 
     }
 
-    public ActionGroup(String title, String description, Long minimumDonation, User owner, Charity charity) {
+    public ActionGroup(String title, String description, Long minimumDonation, UserAccount owner, Charity charity) {
         this.title = title;
         this.description = description;
         this.minimumAmount = minimumDonation;
         this.owner = owner;
         this.charity = charity;
-        this.users = new ArrayList<>();
+        this.userAccounts = new ArrayList<>();
         this.isClosed = false;
     }
 

@@ -1,11 +1,11 @@
 package danielrichtersz.services.interfaces;
 
-import danielrichtersz.models.User;
+import danielrichtersz.models.UserAccount;
 
 public interface UserService {
-    User createUser(String email, String username, String password);
+    UserAccount createUser(String email, String username, String password);
 
-    User updateUser(String email, String password);
+    UserAccount updateUser(String email, String password);
 
     boolean emailInUse(String email);
 
@@ -15,6 +15,6 @@ public interface UserService {
 
     boolean deleteUser(String email);
 
-    User getByEmail(String email);
+    UserAccount getByEmail(String email);
 
 }

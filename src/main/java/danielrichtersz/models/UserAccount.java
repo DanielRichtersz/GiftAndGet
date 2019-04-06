@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class User {
+public class UserAccount {
 
     @Id
     @GeneratedValue
@@ -26,11 +26,11 @@ public class User {
 
     private boolean verifiedCompany;
 
-    public User() {
+    public UserAccount() {
 
     }
 
-    public User(String email, String username, String password) {
+    public UserAccount(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;

@@ -1,7 +1,7 @@
 package danielrichtersz.services.impl;
 
 import danielrichtersz.models.Charity;
-import danielrichtersz.models.User;
+import danielrichtersz.models.UserAccount;
 import danielrichtersz.repositories.ActionGroupRepository;
 import danielrichtersz.repositories.CharityRepository;
 import danielrichtersz.repositories.UserRepository;
@@ -23,9 +23,9 @@ public class CharityServiceImpl implements CharityService {
 
     @Override
     public Charity submitCharityValidationRequest(String userEmail, String name, String email, String phonenumber, String description, String bankAccount) {
-        User user = userRepository.findByEmail(userEmail);
+        UserAccount userAccount = userRepository.findByEmail(userEmail);
 
-        if (user == null) {
+        if (userAccount == null) {
             return null;
         }
 
@@ -33,7 +33,7 @@ public class CharityServiceImpl implements CharityService {
             return null;
         }
 
-        return charityRepository.save(new Charity(user, name, email, phonenumber, description, bankAccount));
+        return charityRepository.save(new Charity(userAccount, name, email, phonenumber, description, bankAccount));
     }
 
     @Override

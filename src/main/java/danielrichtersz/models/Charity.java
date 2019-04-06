@@ -13,7 +13,7 @@ public class Charity {
     private Long id;
 
     @ManyToOne
-    private User owner;
+    private UserAccount owner;
 
     private String name;
     private String email;
@@ -27,7 +27,7 @@ public class Charity {
 
     }
 
-    public Charity(User owner, String name, String email, String phonenumber, String description, String bankAccount) {
+    public Charity(UserAccount owner, String name, String email, String phonenumber, String description, String bankAccount) {
         this.owner = owner;
         this.name = name;
         this.email = email;
