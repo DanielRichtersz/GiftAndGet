@@ -1,4 +1,4 @@
-package danielrichtersz.PostCollectionFrame;
+package danielrichtersz.ActionGroupFrame;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

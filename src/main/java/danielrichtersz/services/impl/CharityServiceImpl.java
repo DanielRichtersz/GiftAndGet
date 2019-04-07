@@ -9,6 +9,9 @@ import danielrichtersz.services.interfaces.CharityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CharityServiceImpl implements CharityService {
 
@@ -80,5 +83,21 @@ public class CharityServiceImpl implements CharityService {
         charityRepository.delete(charity);
         charity = charityRepository.getByName(charityName);
         return charity == null;
+    }
+
+    @Override
+    public List<Charity> getCharities() {
+        List<Charity> availableCharities = new ArrayList<>();
+
+        charityRepository.findAll().forEach(charity -> {
+            availableCharities.add(charity);
+        });
+
+        return availableCharities;
+    }
+
+    @Override
+    public Charity getCharityByCharityName(String charityName) {
+        return charityRepository.getByName(charityName);
     }
 }

@@ -1,5 +1,6 @@
 package danielrichtersz.controllers.impl;
 
+import com.sun.deploy.net.HttpResponse;
 import danielrichtersz.controllers.interfaces.CharityController;
 import danielrichtersz.models.Charity;
 import danielrichtersz.services.interfaces.CharityService;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/api")
@@ -92,6 +95,18 @@ public class CharityControllerImpl implements CharityController {
         }
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(charity);
+    }
 
+    @GetMapping("/charities")
+    @Override
+    public ResponseEntity getCharities() {
+
+        List<Charity> availableCharities = charityService.getCharities();
+
+        if (availableCharities == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No charities could be retrieved, please try again");
+        }
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(availableCharities);
     }
 }

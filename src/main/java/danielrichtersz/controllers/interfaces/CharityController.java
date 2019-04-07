@@ -9,4 +9,6 @@ public interface CharityController {
     ResponseEntity deleteCharity(String charityName);
 
     ResponseEntity verifyCharity(String charityName, boolean verified);
+
+    ResponseEntity getCharities();
 }

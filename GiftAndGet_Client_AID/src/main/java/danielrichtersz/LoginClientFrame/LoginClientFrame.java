@@ -1,7 +1,7 @@
 package danielrichtersz.LoginClientFrame;
 
-import danielrichtersz.HttpClient.HttpClientGateway;
-import danielrichtersz.PostCollectionFrame.ActionGroupFrame;
+import danielrichtersz.HttpClient.UserAccountResponseGateway;
+import danielrichtersz.ActionGroupsOverviewFrame.ActionGroupsOverviewFrame;
 import danielrichtersz.RegisterClientFrame.RegisterClientFrame;
 
 import javax.swing.*;
@@ -17,17 +17,36 @@ public class LoginClientFrame extends JFrame {
 
     private JLabel jLabel_tf_username_errormsg;
 
+    private LoginClientRestGateway loginClientRestGateway = new LoginClientRestGateway();
+
 
     public LoginClientFrame() {
         setTitle("GiftAndGet");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 684, 619);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
+        initializeFrameActions();
+        loginUserForm();
+        registerUserButton();
+    }
 
-        //-------------USER LOGIN
+    private void registerUserButton() {
+        JButton btn_Register = new JButton("Register new user");
+        btn_Register.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                RegisterClientFrame registerClientFrame = new RegisterClientFrame();
+                registerClientFrame.setVisible(true);
+
+                setVisible(false);
+            }
+        });
+
+        GridBagConstraints gridBagConstraints_btn_Register = new GridBagConstraints();
+        gridBagConstraints_btn_Register.insets = new Insets(0, 0, 5, 5);
+        gridBagConstraints_btn_Register.gridx = 4;
+        gridBagConstraints_btn_Register.gridy = 4;
+        contentPane.add(btn_Register, gridBagConstraints_btn_Register);
+    }
+
+    private void loginUserForm() {
         //-------------
         //USERNAME TEXTFIELD
         //-------------
@@ -67,14 +86,25 @@ public class LoginClientFrame extends JFrame {
                     jLabel_tf_username_errormsg.setVisible(true);
                 }
                 else {
-                    HttpClientGateway httpClientGateway = new HttpClientGateway();
-                    String userData = httpClientGateway.LoginUser(tf_username.getText());
+                    String response = loginClientRestGateway.LoginUser(tf_username.getText());
 
-                    if (userData != null && !userData.isEmpty()) {
-                        jLabel_tf_username_errormsg.setVisible(false);
-                        setVisible(false);
-                        ActionGroupFrame actionGroupFrame = new ActionGroupFrame();
-                        actionGroupFrame.setVisible(true);
+                    if (response != null && !response.isEmpty()) {
+
+                        //Check for valid username
+                        String userAccountUsername = UserAccountResponseGateway.extractUsernameFromResponse(response);
+
+                        if (userAccountUsername != null) {
+                            ActionGroupsOverviewFrame actionGroupsOverviewFrame = new ActionGroupsOverviewFrame(userAccountUsername);
+                            actionGroupsOverviewFrame.setVisible(true);
+
+                            setVisible(false);
+                        }
+                        else {
+                            jLabel_tf_username_errormsg.setText(response);
+                            jLabel_tf_username_errormsg.setVisible(true);
+                        }
+
+
                     }
                     else {
                         jLabel_tf_username_errormsg.setText("Incorrect login");
@@ -89,23 +119,13 @@ public class LoginClientFrame extends JFrame {
         gridBagConstraints_btn_Login.gridx = 2;
         gridBagConstraints_btn_Login.gridy = 2;
         contentPane.add(btn_Login, gridBagConstraints_btn_Login);
+    }
 
-        JButton btn_Register = new JButton("Register new user");
-        btn_Register.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                RegisterClientFrame registerClientFrame = new RegisterClientFrame();
-                registerClientFrame.setVisible(true);
-
-                setVisible(false);
-            }
-        });
-
-        GridBagConstraints gridBagConstraints_btn_Register = new GridBagConstraints();
-        gridBagConstraints_btn_Register.insets = new Insets(0, 0, 5, 5);
-        gridBagConstraints_btn_Register.gridx = 4;
-        gridBagConstraints_btn_Register.gridy = 4;
-        contentPane.add(btn_Register, gridBagConstraints_btn_Register);
-
-
+    private void initializeFrameActions() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 684, 619);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
     }
 }
