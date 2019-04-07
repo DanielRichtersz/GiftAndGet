@@ -8,8 +8,8 @@ public class ActionGroupsOverviewFrame extends JFrame {
 
     private JPanel contentPane;
 
-    public ActionGroupsOverviewFrame() {
-        setTitle("GiftAndGet");
+    public ActionGroupsOverviewFrame(String overviewOf) {
+        setTitle("Overview of: " + overviewOf);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 684, 619);
@@ -19,11 +19,11 @@ public class ActionGroupsOverviewFrame extends JFrame {
 
 
         //TODO: Show collection of actiongroups
-        JLabel lblBody = new JLabel("All open groups");
+        JLabel lblLoggedInAs = new JLabel("Logged in as: " + overviewOf);
         GridBagConstraints gbc_lblBody = new GridBagConstraints();
         gbc_lblBody.insets = new Insets(0, 0, 5, 5);
         gbc_lblBody.gridx = 0;
         gbc_lblBody.gridy = 0;
-        contentPane.add(lblBody, gbc_lblBody);
+        contentPane.add(lblLoggedInAs, gbc_lblBody);
     }
 }

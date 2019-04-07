@@ -17,7 +17,6 @@ public class ActionGroupFrame extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
 
-
         //TODO: Show collection of posts
         JLabel lblAGName = new JLabel("Name of actiongroup:");
         GridBagConstraints gridBagConstraints_AGName = new GridBagConstraints();
