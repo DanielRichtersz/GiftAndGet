@@ -65,6 +65,51 @@ public class UserControllerImpl implements UserController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(userAccount);
     }
 
+    @GetMapping("/users/login")
+    @Override
+    public ResponseEntity loginUser(@RequestParam(value = "email") String email,
+                                    @RequestParam(value = "password") String password) {
+
+        if (!userService.emailInUse(email)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user with this email could be found");
+        }
+
+        if (password.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please insert a valid password");
+        }
+
+        UserAccount userAccount = userService.getByEmail(email);
+
+        if (userAccount == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No userAccount with this email could be found");
+        }
+
+        if (!userAccount.checkPassword(password)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid password");
+        }
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userAccount);
+    }
+
+    @GetMapping("/users/{username}")
+    @Override
+    public ResponseEntity getUser(@PathVariable(value = "username") String username) {
+
+        if (username.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please insert a valid username");
+        }
+
+        UserAccount userAccount = userService.getByUsername(username);
+
+        if (userAccount == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No userAccount with this username exists");
+        }
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userAccount);
+    }
+
+
+
     @DeleteMapping("/users")
     @Override
     public ResponseEntity deleteUser(String email) {

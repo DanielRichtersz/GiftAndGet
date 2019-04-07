@@ -4,11 +4,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class PostClientFrame extends JFrame {
+public class ActionGroupsOverviewFrame extends JFrame {
 
     private JPanel contentPane;
 
-    public PostClientFrame() {
+    public ActionGroupsOverviewFrame() {
         setTitle("GiftAndGet");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -18,8 +18,8 @@ public class PostClientFrame extends JFrame {
         setContentPane(contentPane);
 
 
-        //TODO: Show collection of posts
-        JLabel lblBody = new JLabel("Title of post");
+        //TODO: Show collection of actiongroups
+        JLabel lblBody = new JLabel("All open groups");
         GridBagConstraints gbc_lblBody = new GridBagConstraints();
         gbc_lblBody.insets = new Insets(0, 0, 5, 5);
         gbc_lblBody.gridx = 0;

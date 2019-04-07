@@ -15,6 +15,8 @@ public interface UserService {
 
     boolean deleteUser(String email);
 
+    UserAccount getByUsername(String username);
+
     UserAccount getByEmail(String email);
 
 }
