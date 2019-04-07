@@ -7,9 +7,11 @@ import com.rabbitmq.client.ConnectionFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+import static danielrichtersz.RabbitMQQueues.CENTRAL_EXCHANGE;
+
 public class RabbitMQSender {
 
-    public static void Send(String queueName, String message) {
+    public static void SendBroadcast(String queueName, String message) {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         try (Connection connection = factory.newConnection();

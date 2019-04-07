@@ -1,5 +1,8 @@
 package danielrichtersz;
 
+import com.rabbitmq.client.DeliverCallback;
+import com.sun.xml.internal.ws.encoding.soap.SerializationException;
+import danielrichtersz.jms.CentralExchange;
 import danielrichtersz.repositories.UserRepository;
 import danielrichtersz.services.interfaces.UserService;
 import org.slf4j.Logger;
@@ -9,6 +12,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import static danielrichtersz.RabbitMQQueues.CENTRAL_EXCHANGE;
 
 @SpringBootApplication
 public class App {
@@ -25,41 +30,9 @@ public class App {
     @Bean
     public CommandLineRunner demo(UserRepository userRepository) {
         return (args -> {
-           /* log.info("--------------------------------------");
-            log.info("Application running");
-            log.info("--------------------------------------");
-            log.info("");
+            CentralExchange centralExchange = new CentralExchange();
+            centralExchange.startExchange();
 
-            log.info("--------------------------------------");
-            log.info("Creating and saving user");
-            userRepository.save(new UserAccount("1@mail.com", "username1", "password1"));
-            userRepository.save(new UserAccount("2@mail.com", "username2", "password2"));
-            userRepository.save(new UserAccount("3@mail.com", "username3", "password3"));
-            userRepository.save(new UserAccount("4@mail.com", "username4", "password4"));
-            log.info("--------------------------------------");
-            log.info("");
-
-            log.info("--------------------------------------");
-            log.info("Retrieving all users from repository");
-            userRepository.findAll().forEach(user -> {
-                log.info(user.toString());
-                log.info("");
-            });
-            log.info("--------------------------------------");
-            log.info("");
-
-            log.info("--------------------------------------");
-            log.info("Testing @Autowired userService, saving user through service");
-            userService.createOrUpdateUser("5@mail.com", "username5", "password5");
-            log.info("Created user, now retrieving all users to check if it is in the list");
-            log.info("--------------------------------------");
-            userRepository.findAll().forEach(user -> {
-                log.info(user.toString());
-                log.info("");
-            });
-            log.info("--------------------------------------");
-            log.info("");
-*/
         });
     }
 }

@@ -2,6 +2,7 @@ package danielrichtersz.LoginClientFrame;
 
 import danielrichtersz.HttpClient.UserAccountResponseGateway;
 import danielrichtersz.ActionGroupsOverviewFrame.ActionGroupsOverviewFrame;
+import danielrichtersz.RabbitMQListener;
 import danielrichtersz.RegisterClientFrame.RegisterClientFrame;
 
 import javax.swing.*;
@@ -9,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static danielrichtersz.RabbitMQQueues.CENTRAL_EXCHANGE;
 
 public class LoginClientFrame extends JFrame {
 

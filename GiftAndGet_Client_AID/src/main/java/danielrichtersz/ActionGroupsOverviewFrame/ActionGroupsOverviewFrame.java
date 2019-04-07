@@ -8,7 +8,8 @@ import java.awt.event.ActionListener;
 
 public class ActionGroupsOverviewFrame extends JFrame {
 
-    private ActionGroupsOverviewRestGateway actionGroupsOverviewRestGateway = new ActionGroupsOverviewRestGateway();
+    private ActionGroupsOverviewRestGateway actionGroupsOverviewRestGateway;
+    private ActionGroupsOverviewJMSGateway actionGroupsOverviewJMSGateway;
 
     private JPanel contentPane;
 
@@ -16,6 +17,8 @@ public class ActionGroupsOverviewFrame extends JFrame {
 
     public ActionGroupsOverviewFrame(String overviewOf) {
         this.username = overviewOf;
+        actionGroupsOverviewRestGateway = new ActionGroupsOverviewRestGateway();
+        actionGroupsOverviewJMSGateway = new ActionGroupsOverviewJMSGateway();
         setTitle("Overview of: " + overviewOf);
 
         initializeFrameActions();
@@ -23,6 +26,8 @@ public class ActionGroupsOverviewFrame extends JFrame {
         showLoggedInUserInformation(overviewOf);
         registerCharityForm();
         registerActionGroupForm();
+        actionGroupsOverviewJMSGateway.getAvailableGroups();
+
     }
 
     private void initializeFrameActions() {
