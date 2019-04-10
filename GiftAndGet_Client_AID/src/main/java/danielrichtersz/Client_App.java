@@ -1,5 +1,6 @@
 package danielrichtersz;
 
+import danielrichtersz.ActionGroupsOverviewFrame.ActionGroupsOverviewJMSGateway;
 import danielrichtersz.LoginClientFrame.LoginClientFrame;
 
 import java.awt.*;

@@ -1,48 +1,60 @@
 package danielrichtersz.ActionGroupsOverviewFrame;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.DeliverCallback;
-import com.sun.xml.internal.ws.encoding.soap.SerializationException;
+import com.owlike.genson.Genson;
+import com.rabbitmq.client.*;
 import danielrichtersz.RabbitMQListener;
 import danielrichtersz.RabbitMQSender;
+import danielrichtersz.models.ActionGroup;
 
+import javax.swing.*;
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import static danielrichtersz.RabbitMQQueues.CENTRAL_EXCHANGE;
+import static danielrichtersz.RabbitMQQueues.*;
+import static danielrichtersz.RabbitMQQueues.LOGGER_QUEUE;
 
 public class ActionGroupsOverviewJMSGateway {
 
-    public ActionGroupsOverviewJMSGateway() {
+    private String loggedInUsername;
+    private RabbitMQListener rabbitMQListener = new RabbitMQListener();
+    private RabbitMQSender rabbitMQSender = new RabbitMQSender();
+    private Genson genson = new Genson();
 
+    public ActionGroupsOverviewJMSGateway(String loggedInUsername) {
+        this.loggedInUsername = loggedInUsername;
     }
 
     public void getAvailableGroups() {
-        listenForNewGroups();
-        RabbitMQSender.SendBroadcast(CENTRAL_EXCHANGE, "clientSpecificId");
+        sendAvailableGroupsRequest();
+        listenForAvailableGroupsAnswer();
     }
 
-    private void listenForNewGroups() {
-        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            String json = new String(delivery.getBody(), "UTF-8");
-            System.out.println(" [x] New available ActionGroup received '" + json + "'");
+    private void sendAvailableGroupsRequest() {
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("localhost");
+        try (Connection connection = factory.newConnection();
 
-            try {
+             Channel channel = connection.createChannel()) {
+            channel.exchangeDeclare(CENTRAL_EXCHANGE_REQUESTS, "direct");
+            channel.queueDeclare(CE_AVAILABLE_ACTIONGROUPS_QUEUE, true, false, false, null);
 
-                //TODO: Send to client
-            }
-            catch (SerializationException e) {
-                e.printStackTrace();
-            }
-        };
-        //RabbitMQListener rabbitMQListener = new RabbitMQListener();
-        //rabbitMQListener.Listen(CENTRAL_EXCHANGE,deliverCallback);
-        this.Listen(CENTRAL_EXCHANGE, deliverCallback);
+            channel.basicPublish(CENTRAL_EXCHANGE_REQUESTS, CE_AVAILABLE_ACTIONGROUPS_QUEUE, MessageProperties.PERSISTENT_TEXT_PLAIN, this.loggedInUsername.getBytes("UTF-8"));
+
+            String logMessage =  " [x] User '" + this.loggedInUsername + "' has sent a request for available action groups";
+            System.out.println(logMessage);
+            rabbitMQSender.SendToLogger(logMessage);
+        }
+        catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void Listen(String queueName, DeliverCallback deliverCallback) {
+    private void listenForAvailableGroupsAnswer() {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
 
@@ -50,13 +62,32 @@ public class ActionGroupsOverviewJMSGateway {
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
 
-            channel.queueDeclare(queueName, true, false, false, null);
-            System.out.println(" [*] Waiting for messages.");
+            channel.exchangeDeclare(CENTRAL_EXCHANGE_REQUESTS, "direct");
 
-            channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {
-            });
+            final String USER_QUEUE = CE_AVAILABLE_ACTIONGROUPS_QUEUE + "_" + this.loggedInUsername;
+            channel.queueDeclare(USER_QUEUE, true, false, false, null);
+            channel.queueBind(USER_QUEUE, CENTRAL_EXCHANGE_REQUESTS, USER_QUEUE);
+
+            System.out.println(" [*] Waiting for reply of type 'AvailableGroups. To exit press CTRL+C");
+
+            DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+                try {
+                    String message = new String(delivery.getBody(), "UTF-8");
+                    System.out.println(" [x] " + USER_QUEUE + " - Reply of type 'AvailableGroups' received: '" + message + "'");
+
+                    List<ActionGroup> availableActionGroups = genson.deserialize(message, List.class);
+                }
+                finally {
+                    channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+                }
+            };
+
+            channel.basicConsume(USER_QUEUE, false, deliverCallback, consumerTag -> { });
         }
-        catch (TimeoutException | IOException e) {
+        catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

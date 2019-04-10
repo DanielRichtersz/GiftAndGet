@@ -1,6 +1,6 @@
 package danielrichtersz.HttpClient;
 
-public class UserAccountResponseGateway {
+public class ExtractMethods {
     public static String extractUsernameFromResponse(String response) {
 
         int start = response.indexOf("\"username\":") + 12;

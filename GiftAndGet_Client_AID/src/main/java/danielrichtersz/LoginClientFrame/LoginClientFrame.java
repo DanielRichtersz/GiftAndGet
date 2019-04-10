@@ -1,8 +1,7 @@
 package danielrichtersz.LoginClientFrame;
 
-import danielrichtersz.HttpClient.UserAccountResponseGateway;
+import danielrichtersz.HttpClient.ExtractMethods;
 import danielrichtersz.ActionGroupsOverviewFrame.ActionGroupsOverviewFrame;
-import danielrichtersz.RabbitMQListener;
 import danielrichtersz.RegisterClientFrame.RegisterClientFrame;
 
 import javax.swing.*;
@@ -10,8 +9,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import static danielrichtersz.RabbitMQQueues.CENTRAL_EXCHANGE;
 
 public class LoginClientFrame extends JFrame {
 
@@ -94,7 +91,7 @@ public class LoginClientFrame extends JFrame {
                     if (response != null && !response.isEmpty()) {
 
                         //Check for valid username
-                        String userAccountUsername = UserAccountResponseGateway.extractUsernameFromResponse(response);
+                        String userAccountUsername = ExtractMethods.extractUsernameFromResponse(response);
 
                         if (userAccountUsername != null) {
                             ActionGroupsOverviewFrame actionGroupsOverviewFrame = new ActionGroupsOverviewFrame(userAccountUsername);

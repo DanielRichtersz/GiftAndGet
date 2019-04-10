@@ -1,6 +1,5 @@
 package danielrichtersz.HttpClient;
 
-import danielrichtersz.models.UserAccount;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -12,7 +11,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

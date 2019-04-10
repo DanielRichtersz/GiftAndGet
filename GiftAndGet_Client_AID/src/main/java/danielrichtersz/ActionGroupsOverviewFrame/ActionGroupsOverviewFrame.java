@@ -18,7 +18,7 @@ public class ActionGroupsOverviewFrame extends JFrame {
     public ActionGroupsOverviewFrame(String overviewOf) {
         this.username = overviewOf;
         actionGroupsOverviewRestGateway = new ActionGroupsOverviewRestGateway();
-        actionGroupsOverviewJMSGateway = new ActionGroupsOverviewJMSGateway();
+        actionGroupsOverviewJMSGateway = new ActionGroupsOverviewJMSGateway(this.username);
         setTitle("Overview of: " + overviewOf);
 
         initializeFrameActions();

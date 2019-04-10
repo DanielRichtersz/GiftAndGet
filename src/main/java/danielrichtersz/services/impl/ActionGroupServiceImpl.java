@@ -8,6 +8,8 @@ import danielrichtersz.services.interfaces.ActionGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ActionGroupServiceImpl implements ActionGroupService {
 
@@ -17,5 +19,10 @@ public class ActionGroupServiceImpl implements ActionGroupService {
     @Override
     public ActionGroup createNewActionGroup(String title, String description, Long minimumDonation, UserAccount userAccount, Charity charity) {
         return actionGroupRepository.save(new ActionGroup(title, description, minimumDonation, userAccount, charity));
+    }
+
+    @Override
+    public List<ActionGroup> getAvailableActionGroups() {
+        return actionGroupRepository.findAllByIsClosedFalse();
     }
 }

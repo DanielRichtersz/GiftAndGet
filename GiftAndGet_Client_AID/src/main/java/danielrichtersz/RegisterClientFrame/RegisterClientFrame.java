@@ -1,6 +1,6 @@
 package danielrichtersz.RegisterClientFrame;
 
-import danielrichtersz.HttpClient.UserAccountResponseGateway;
+import danielrichtersz.HttpClient.ExtractMethods;
 import danielrichtersz.ActionGroupsOverviewFrame.ActionGroupsOverviewFrame;
 
 import javax.swing.*;
@@ -57,7 +57,7 @@ public class RegisterClientFrame extends JFrame {
 
                     if (response != null) {
 
-                       String userAccountUsername = UserAccountResponseGateway.extractUsernameFromResponse(response);
+                       String userAccountUsername = ExtractMethods.extractUsernameFromResponse(response);
 
                         if (userAccountUsername != null) {
                             ActionGroupsOverviewFrame actionGroupsOverviewFrame = new ActionGroupsOverviewFrame(userAccountUsername);
